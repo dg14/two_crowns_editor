@@ -41,7 +41,7 @@ const Menu: React.FC<MenuProps> = ({ items, onSelect, title }) => {
           </Text>
         </Text>
       ))}
-      <Text dimColor>(Usa ↑↓ per navigare, Invio per selezionare)</Text>
+      <Text dimColor>(Use ↑↓ to navigate, Enter to select)</Text>
     </Box>
   );
 };
