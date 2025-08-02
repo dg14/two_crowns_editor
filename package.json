@@ -3,7 +3,8 @@
   "private": true,
   "scripts": {
     "start": "bun run ./src/cli.tsx",
-    "build": "bun build ./src/cli.tsx  ./yoga.wasm --compile --outfile=dist/two_crowns_editor"
+    "build": "bun build ./src/cli.tsx  ./yoga.wasm --compile --outfile=dist/two_crowns_editor",
+    "build2": "bun build ./src/cli_single.tsx  ./yoga.wasm --compile --outfile=dist/two_crowns_editor_one"
   },
   "devDependencies": {
     "@types/bun": "latest"

@@ -1,7 +1,7 @@
 import type { Store } from "./store";
 
 export class Updater {
-  static doAction(store: Store, cmd: string, pars: string | null) {
+  static doAction(store: Store, cmd: string, pars: string | null, compressed: boolean = true) {
     switch (cmd) {
       case "setcoins":
         if (pars) {
@@ -25,7 +25,7 @@ export class Updater {
             }
           }
         }
-        store.writeFile();
+        store.writeFile(compressed);
         console.log("Store updated successfully.");
         break;
       case "setgems":
@@ -49,7 +49,7 @@ export class Updater {
             }
           }
         }
-        store.writeFile();
+        store.writeFile(compressed);
         console.log("Store updated successfully.");
         break;
       case "invulnerable":
@@ -92,7 +92,7 @@ export class Updater {
             }
           }
         }
-        store.writeFile();
+        store.writeFile(compressed);
         console.log("Store updated successfully.");
 
         break;
@@ -110,7 +110,7 @@ export class Updater {
             }
           }
         }
-        store.writeFile();
+        store.writeFile(compressed);
         console.log("Store updated successfully.");
         break;
       case "dump":
@@ -206,7 +206,7 @@ export class Updater {
             ],
           });
         }
-        store.writeFile();
+        store.writeFile(compressed);
         console.log("Store updated successfully.");
         break;
       case "createarchers":
@@ -263,7 +263,7 @@ export class Updater {
             ],
           });
         }
-        store.writeFile();
+        store.writeFile(compressed);
         console.log("Store updated successfully.");
         break;
       case "createworkers":
@@ -320,7 +320,7 @@ export class Updater {
             ],
           });
         }
-        store.writeFile();
+        store.writeFile(compressed);
         console.log("Store updated successfully.");
         break;
     }

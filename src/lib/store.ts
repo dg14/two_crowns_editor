@@ -47,6 +47,7 @@ export class Store {
   private static instance: Store;
   private data: StoreData;
   private file: string | null = null;
+  private compressed: boolean;
   public constructor() {
     this.data = {
       biome: 0,
@@ -58,6 +59,7 @@ export class Store {
       repopGrassHack: false,
       savedWithRevisions: [],
     };
+    this.compressed = true;
   }
 
   public static getInstance(): Store {
@@ -74,14 +76,16 @@ export class Store {
   public setData(data: Partial<StoreData>): void {
     this.data = { ...this.data, ...data };
   }
-  public loadFile(filePath: string): void {
+  public loadFile(filePath: string, compressed: boolean = true): void {
+    console.log("load:" + filePath);
+    this.compressed = compressed;
     this.file = filePath;
     try {
       const fileData = JSON.parse(readFileSync(filePath).toString());
       this.setData(fileData);
     } catch (error) {
       try {
-        const fileData = JSON.parse(Buffer.from(Bun.gunzipSync(readFileSync(filePath))).toString());
+        const fileData = compressed ? JSON.parse(Buffer.from(Bun.gunzipSync(readFileSync(filePath))).toString()) : JSON.parse(readFileSync(filePath).toString());
         this.setData(fileData);
       } catch (error) {
         console.error("Failed to load file:", error);
@@ -89,10 +93,17 @@ export class Store {
       }
     }
   }
-  public writeFile() {
+  public writeFile(compressed: boolean = true) {
     if (this.file) {
       copyFileSync(this.file, this.file + ".bak." + new Date().toISOString().replace(/[:.]/g, "-"));
-      writeFileSync(this.file!, Bun.gzipSync(JSON.stringify(this.data)));
+      if (compressed) {
+        console.log("Write compressed " + this.file);
+        writeFileSync(this.file!, Bun.gzipSync(JSON.stringify(this.data)));
+      }
+      else {
+        console.log("Write un compressed " + this.file);
+        writeFileSync(this.file!, JSON.stringify(this.data));
+      }
     }
   }
 }
